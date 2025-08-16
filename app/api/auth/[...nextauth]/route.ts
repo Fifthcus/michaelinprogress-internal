@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { NextAuthOptions } from "next-auth";
-import prisma from "@/prisma/mipiPrismaClient";
+import userdb from "@/userPrismaClient/PrismaClient";
 import bcrypt from "bcrypt";
 
 export const authOptions: NextAuthOptions = ({
@@ -13,12 +13,12 @@ export const authOptions: NextAuthOptions = ({
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
-                const user = await prisma.user.findUnique({
+                const user = await userdb.user.findUnique({
                     where: {
                         username: credentials?.username
                     }
                 })
-                if(!credentials|| !user) {
+                if(!credentials || !user) {
                     return null;
                 }
                 const authUser = { id: String(user.id), username: user.username };
@@ -47,7 +47,8 @@ export const authOptions: NextAuthOptions = ({
             session.user = token.user as any;
             return session;
         }
-    }
+    },
+    secret: process.env.NEXTAUTH_SECRET,
 });
 
 const handler =  NextAuth(authOptions);
