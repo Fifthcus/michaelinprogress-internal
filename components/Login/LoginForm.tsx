@@ -1,31 +1,38 @@
-import { FormEvent, useState } from "react";
-import { signIn } from "next-auth/react";
+import { FormEvent, useState, useEffect } from "react";
+import { signIn, getCsrfToken } from "next-auth/react";
 import LoginIcon from "../ui/icons/LoginIcon";
-import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
-    const router = useRouter();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [csrfToken, setCsrfToken] = useState<string | undefined>("");
+
+    useEffect(() => {
+        const fetchCsrfToken = async () => {
+            const token = await getCsrfToken();
+            setCsrfToken(token);
+        };
+        fetchCsrfToken();
+    }, []);
+
     const handleUpdateState = (updateInputState: () => void) => {
         updateInputState();
     }
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         const result = await signIn("credentials", {
-            redirect: false,
+            callbackUrl: "/dashboard",
             username,
             password
         });
-        if (result?.ok) {
-            router.push("https://www.apple.com/");
-        } else {
+        if (!result?.ok) {
             setError(result?.error || "Login failed");
         }
     }
     return(
         <form onSubmit={ (event) => handleSubmit(event) }>
+            <input type="hidden" name="csrfToken" defaultValue={csrfToken} />
             <fieldset className="flex flex-col gap-4">
                 <legend className="text-center py-2">Sign Into Account</legend>
                 {error ? "Failed" : null}
