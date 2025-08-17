@@ -22,12 +22,14 @@ const LoginForm = () => {
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         const result = await signIn("credentials", {
+            redirect: false,
             callbackUrl: "/dashboard",
             username,
             password
         });
         if (!result?.ok) {
-            setError(result?.error || "Login failed");
+            console.log(result);
+            setError(result?.error || "An unknown error occurred.");
         }
     }
     return(
@@ -35,7 +37,7 @@ const LoginForm = () => {
             <input type="hidden" name="csrfToken" defaultValue={csrfToken} />
             <fieldset className="flex flex-col gap-4">
                 <legend className="text-center py-2">Sign Into Account</legend>
-                {error ? "Failed" : null}
+                {error ? <p className="text-center text-red-500 bg-red-100 border border-red-500 rounded-lg py-2">{ error }</p> : null}
                 <div className="flex flex-col">
                     <label htmlFor="username">Username</label>
                     <input type="text" id="username" name="username" placeholder="Enter your username" className="border border-neutral-400 rounded-lg py-2 pl-1" value={username} onChange={ (event) => {

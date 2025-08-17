@@ -18,14 +18,30 @@ export const authOptions: NextAuthOptions = ({
                         username: credentials?.username
                     }
                 })
+
+                //basic check
                 if(!credentials || !user) {
-                    return null;
+                    if(credentials?.username === "" || credentials?.password === "") {
+                        throw new Error("Username or password may not be empty.");
+                     } else if (!user) {
+                        throw new Error("This account does not exist.");
+                     } else if (!credentials) {
+                        throw new Error("An unexpected error has occured.");
+                     }
                 }
-                const authUser = { id: String(user.id), username: user.username };
+
+                //password check
                 const passwordIsValid = await bcrypt.compare(credentials.password, user.password);
+                if(!credentials.username || !passwordIsValid) {
+                    throw new Error("Username of password is incorrect.");
+                }
+
+                //auth already
+                const authUser = { id: String(user.id), username: user.username };
                 if (credentials.username === user.username && passwordIsValid) {
                     return authUser;
                 }
+
                 return null;
             },
         })
