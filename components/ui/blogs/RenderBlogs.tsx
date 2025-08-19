@@ -36,6 +36,7 @@ const RenderBlogs = () => {
 
     return(
         <>
+            <h2 className="text-xl text-center ">MiP Blogs</h2>
             <ul className="flex flex-col">
                 <>
                     {
@@ -43,7 +44,7 @@ const RenderBlogs = () => {
                         blogs?.map((blog) => {
                             return (
                                 <li key={blog.id} className="flex place-content-between grow odd:bg-gray-300 px-2 py-4">
-                                    <p className="">{ blog.title }</p>
+                                    <p className="font-semibold">{ blog.title }</p>
                                     <div className="flex gap-2">
                                         <span className="cursor-pointer">
                                             <EditIcon/>

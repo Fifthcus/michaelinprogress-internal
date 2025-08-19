@@ -5,7 +5,14 @@ let data = {};
 
 export const GET = async () => {
     try {
-        const blogs = await blogdb.article.findMany();
+        const blogs = await blogdb.article.findMany(
+            {
+                select: {
+                    id: true,
+                    title: true
+                }
+            }
+        );
         data = {
             blogs
         };
