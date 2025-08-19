@@ -12,17 +12,18 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     });
   }
   return (
-    <main>
-        <nav className="p-4">
-            <ul className="flex gap-4">
-                <li className="flex gap-1 cursor-pointer hover:underline">Blogs<span><EditIcon/></span></li>
-                <li className="flex gap-1 cursor-pointer hover:underline">Create New<span><AddIcon/></span></li>
-                <li className="ml-auto">
-                  <button className="flex gap-1 cursor-pointer" onClick={handleSignOut}>Sign Out<span><SignOutIcon/></span></button>
-                </li>
-            </ul>
-        </nav>
+    <main className="h-screen flex flex-col">
+      <nav className="p-4 border-b border-gray-400">
+        <ul className="flex gap-4">
+          <li className="flex gap-1 cursor-pointer hover:underline">New Entry<span><AddIcon/></span></li>
+          <li className="ml-auto">
+            <button className="flex gap-1 cursor-pointer" onClick={handleSignOut}>Sign Out<span><SignOutIcon/></span></button>
+          </li>
+        </ul>
+      </nav>
+      <section className="max-w-screen-lg m-auto flex flex-col gap-8 grow w-full">
         { children }
+      </section>
     </main>
   );
 }
