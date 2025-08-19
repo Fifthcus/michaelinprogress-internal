@@ -16,7 +16,7 @@ const HomePage = () => {
                 <h1 className="text-xl">Michael in Progress - Internal</h1>
                 <p className="text-xs">Manage blogs, and other data here.</p>
             </header>
-                <main className="grow content-center items-center self-center">
+            <main className="grow content-center items-center self-center">
                 <Login/>
             </main>
         </>

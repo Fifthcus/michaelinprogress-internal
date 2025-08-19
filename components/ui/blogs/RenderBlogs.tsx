@@ -1,6 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react";
+import EditIcon from "../icons/EditIcon";
+import DeleteIcon from "../icons/DeleteIcon";
 
 interface Blogs {
     id: string,
@@ -34,13 +36,25 @@ const RenderBlogs = () => {
 
     return(
         <>
-            <ul>
+            <ul className="flex flex-col">
                 <>
                     {
                         blogs ? 
                         blogs?.map((blog) => {
-                            return <li key={blog.id}>{ blog.title }</li>
-                        }) : <p>No blogs exist.</p>
+                            return (
+                                <li key={blog.id} className="flex place-content-between grow odd:bg-gray-300 px-2 py-4">
+                                    <p className="">{ blog.title }</p>
+                                    <div className="flex gap-2">
+                                        <span className="cursor-pointer">
+                                            <EditIcon/>
+                                        </span>
+                                        <span className="cursor-pointer">
+                                            <DeleteIcon/>
+                                        </span>    
+                                    </div>
+                                </li>
+                            )
+                        }) : <p>No entries exist.</p>
                     }
                 </>
             </ul>
