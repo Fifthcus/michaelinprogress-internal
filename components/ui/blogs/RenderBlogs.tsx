@@ -34,6 +34,19 @@ const RenderBlogs = () => {
         fetchBlogs();
     }, []);
 
+    const handleDelete = async (blogId: string) => {
+        const response = await fetch(`http://localhost:3000/api/blogs/${blogId}`, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if(response.ok && blogs) {
+            const filteredListOfBlogs = blogs.filter((blog) => blog.id !== blogId)
+            setBlogs(filteredListOfBlogs);
+        }
+    }
+
     return(
         <>
             <h2 className="text-xl text-center ">MiP Blogs</h2>
@@ -49,7 +62,9 @@ const RenderBlogs = () => {
                                         <span className="cursor-pointer">
                                             <EditIcon/>
                                         </span>
-                                        <span className="cursor-pointer">
+                                        <span className="cursor-pointer" onClick={() => {
+                                            handleDelete(blog.id);
+                                        }}>
                                             <DeleteIcon/>
                                         </span>    
                                     </div>
