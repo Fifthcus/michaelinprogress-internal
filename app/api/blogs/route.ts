@@ -36,7 +36,7 @@ export const POST = async (req: NextRequest) => {
                 }
             }
         );
-        return NextResponse.json({ message: "Blog entry successfully published." }, { status: 200 });
+        return NextResponse.json({ message: "Blog entry successfully published." }, { status: 201 });
     } catch(error) {
         console.log(error);
     }

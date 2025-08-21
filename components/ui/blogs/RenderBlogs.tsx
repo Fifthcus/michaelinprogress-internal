@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import EditIcon from "../icons/EditIcon";
 import DeleteIcon from "../icons/DeleteIcon";
+import Link from "next/link";
 
 interface Blogs {
     id: string,
@@ -60,7 +61,9 @@ const RenderBlogs = () => {
                                     <p className="font-semibold">{ blog.title }</p>
                                     <div className="flex gap-2">
                                         <span className="cursor-pointer">
-                                            <EditIcon/>
+                                            <Link href={`../blog/${blog.id}`}>
+                                                <EditIcon/>
+                                            </Link>
                                         </span>
                                         <span className="cursor-pointer" onClick={() => {
                                             handleDelete(blog.id);
