@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import blogdb from '@/blogSchema/PrismaClient';
 
 export const GET = async (req: NextRequest, { params }: { params: { blogId: string } }) => {
-    const { blogId } = params;
+    const { blogId } = await params;
     try {
         const blog = await blogdb.article.findUnique({
             where: {

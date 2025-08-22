@@ -19,7 +19,8 @@ const RenderBlogs = () => {
 
     const [blogs, setBlogs] = useState<Blogs[]>();
 
-    const fetchBlogs = async () => {
+    useEffect(() => {
+        const fetchBlogs = async () => {
         try {
             const response = await fetch("http://localhost:3000/api/blogs");
             const json = await response.json();
@@ -30,8 +31,6 @@ const RenderBlogs = () => {
             console.log(error);
         }
     }
-
-    useEffect(() => {
         fetchBlogs();
     }, []);
 
@@ -54,7 +53,7 @@ const RenderBlogs = () => {
             <ul className="flex flex-col">
                 <>
                     {
-                        blogs ? 
+                        blogs && blogs.length > 0 ?
                         blogs?.map((blog) => {
                             return (
                                 <li key={blog.id} className="flex place-content-between grow odd:bg-gray-300 px-2 py-4">
@@ -73,7 +72,9 @@ const RenderBlogs = () => {
                                     </div>
                                 </li>
                             )
-                        }) : <p>No entries exist.</p>
+                        })
+                        :
+                        <li className="text-center py-4">No entries exist</li>
                     }
                 </>
             </ul>

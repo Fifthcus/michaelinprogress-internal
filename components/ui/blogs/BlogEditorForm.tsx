@@ -22,10 +22,11 @@ const BlogEditorForm = ({ blogId, handleSubmit, title, setTitle, description, se
             const fetchBlog = async () => {
                 const response = await fetch(`http://localhost:3000/api/blogs/${blogId}`);
                 const json = await response.json();
-                const { blog } = json;
-                setTitle(blog.title);
-                setDescription(blog.description);
-                setContent(blog.content);
+                if(json.blog) {
+                    setTitle(json.blog.title);
+                    setDescription(json.blog.description);
+                    setContent(json.blog.content);
+                }
             }
             fetchBlog();
         }
@@ -38,15 +39,15 @@ const BlogEditorForm = ({ blogId, handleSubmit, title, setTitle, description, se
                 }} className="flex flex-col items-center h-full w-full gap-4">
                 <div className="flex flex-col w-full">
                     <label htmlFor="title">Title</label>
-                    <input type="text" name="title" id="title" value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Title of blog entry" className="border border-gray-400 p-2 rounded-lg"/>
+                    <input type="text" name="title" id="title" value={title ?? ""} onChange={(event) => setTitle(event.target.value)} placeholder="Title of blog entry" className="border border-gray-400 p-2 rounded-lg"/>
                 </div>
                 <div className="flex flex-col w-full">
                     <label htmlFor="description">Description</label>
-                    <input type="text" name="description" id="description" value={description} onChange={(event) => setDescription(event.target.value)} placeholder="Description of entry." className="border border-gray-400 p-2 rounded-lg"/>
+                    <input type="text" name="description" id="description" value={description ?? ""} onChange={(event) => setDescription(event.target.value)} placeholder="Description of entry." className="border border-gray-400 p-2 rounded-lg"/>
                 </div>
                 <div className="flex flex-col w-full h-full">
                     <label htmlFor="entry">Entry</label>
-                    <textarea name="" id="entry" className="w-full h-full border border-gray-400 rounded-lg p-2" value={content} onChange={(event) => {
+                    <textarea name="entry" id="entry" className="w-full h-full border border-gray-400 rounded-lg p-2" value={content ?? ""} onChange={(event) => {
                         setContent(event.target.value);
                     }}/>
                     <Link href="../dashboard">
