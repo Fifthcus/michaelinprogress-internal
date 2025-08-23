@@ -9,7 +9,8 @@ export const GET = async () => {
             {
                 select: {
                     id: true,
-                    title: true
+                    title: true,
+                    published: true
                 }
             }
         );

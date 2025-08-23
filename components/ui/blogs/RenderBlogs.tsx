@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import EditIcon from "../icons/EditIcon";
 import DeleteIcon from "../icons/DeleteIcon";
 import Link from "next/link";
+import orderEntries from "@/components/utilities/orderEntries";
 
 interface Blogs {
     id: string,
@@ -25,7 +26,8 @@ const RenderBlogs = () => {
             const response = await fetch("http://localhost:3000/api/blogs");
             const json = await response.json();
             if(response.ok) {
-                setBlogs(json.blogs);
+                const orderedEntries = orderEntries(json.blogs);
+                setBlogs(orderedEntries);
             }
         } catch(error) {
             console.log(error);
@@ -53,7 +55,7 @@ const RenderBlogs = () => {
             <ul className="flex flex-col">
                 <>
                     {
-                        blogs && blogs.length > 0 ?
+                        blogs && blogs.length !== 0 ?
                         blogs?.map((blog) => {
                             return (
                                 <li key={blog.id} className="flex place-content-between grow odd:bg-gray-300 px-2 py-4">
